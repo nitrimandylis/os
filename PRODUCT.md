@@ -2,7 +2,7 @@
 
 ## What it is
 
-Nick's developer portfolio at nitrimandylis.github.io/portfolio, styled as a
+Nick's developer portfolio at os.nicktrim.com/, styled as a
 fictional operating system called breakOS. Static site, zero build step,
 vanilla JS + GSAP/Lenis from CDN. The bit is commitment: the boot log prints
 real diagnostics, the system monitor streams real GitHub repos, the package
