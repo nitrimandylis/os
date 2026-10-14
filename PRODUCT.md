@@ -1,45 +1,38 @@
-# PRODUCT — breakOS (portfolio)
+# PRODUCT — breakOS (night shift)
 
 ## What it is
 
-Nick's developer portfolio at os.nicktrim.com/, styled as a
-fictional operating system called breakOS. Static site, zero build step,
-vanilla JS + GSAP/Lenis from CDN. The bit is commitment: the boot log prints
-real diagnostics, the system monitor streams real GitHub repos, the package
-manager shows a real live npm version, and every joke grows out of a working
-feature.
+The old portfolio, now "night shift" at os.nicktrim.com, linked from
+nicktrim.com as night-shift(8). A fictional operating system called breakOS.
+Static site, zero build step, vanilla JS + GSAP/Lenis from CDN. The bit is
+commitment: the boot log prints real diagnostics, the system monitor and
+breakpkg stream real GitHub repos, and every joke grows out of a working
+feature. nicktrim.com is the real portfolio; this site keeps no facts that
+need hand-syncing.
 
-## Current state (v3.1, Sept 2026)
+## Current state (v4, Oct 2026)
 
-- Scroll-scrubbed boot → real desktop session on >720px: draggable windows,
-  z-order, minimize/maximize, taskbar app switcher, start menu, shutdown →
-  BSOD → reboot loop.
+- Scroll-scrubbed boot ("night shift_ / running breakOS v4") → real desktop
+  session on >720px: draggable windows, z-order, minimize/maximize, taskbar
+  app switcher, start menu (with "back to nicktrim.com"), shutdown → BSOD →
+  reboot loop. Past the boot screen it is breakOS everywhere.
 - Mobile (≤720px) keeps the linear scroll session, branded breakOS Mobile.
-- The file manager mirrors the six repos **pinned on GitHub**, in pin order:
-  tokenpilot, LLM-Mafia, aidetect, bacpack, gridcast, WhimprFlow. GitHub only serves
-  pins through the authenticated GraphQL API, so the list is hand-synced in
-  `GALLERY` rather than fetched; changing the pins means editing that array.
-  Two of the six are also CLIs and so appear in breakpkg too — the pins win,
-  the overlap is deliberate.
-- breakpkg window + terminal `pkg`/`man` commands cover the CLI family:
-  swatch, juke, jazz, bacpack, dt, cine, agent-wrapped, aidetect, brushwork,
-  nous, nocturne, shelf. (sealfetch looked like one but is a wallpaper repo
-  — it stays out.)
-- Easter eggs: seal, clawd (typed "claude" or the terminal's scripted Claude
-  Code session with its recreated startup TTY), the mafia night phase (the
-  llm-mafia town votes out an open window), f1 start lights in apex's design
-  language, trash-attempt counter, defrag, console kernel, rm -rf /, vim.
-- Themes: cream (default), batman-jazz (hand-tuned), plus nine live from the
-  swatchbook repo's palette.toml files (night-city, nord, tokyo-night, …).
-  `swatch apply <palette>` in the terminal is a working command; the taskbar
-  theme button cycles everything. Persisted, flash-free on reload.
+- One look, matching nicktrim.com's man(1) page: #000, #e6e6e6, grey #8a8a8a,
+  rules #262626, flat 1px windows. Coral #f25c4a is the only accent: focused
+  title bar, selection, active task, hover. Theming is gone.
+- The file manager holds six fixed joke files; `the_real_list.url` opens
+  nicktrim.com/work. The terminal's `ls`/`cat` and the trash use the same list.
+- breakpkg is every public, non-fork repo tagged `cli` on GitHub, read from
+  the shared repos fetch. A new CLI appears once it carries the topic.
+  `man <bin>` tries the repo's man/<bin>.1 and falls back to the description.
+- Easter eggs: seal, clawd + the scripted Claude Code session, the mafia night
+  phase, f1 start lights, trash-attempt counter, defrag, console kernel,
+  rm -rf /, vim.
 
 ## Where it's headed
 
-- Re-sync the file manager whenever the GitHub pins change; the CLI family
-  grows in breakpkg (excali, gridwatch and lamp are candidates when they
-  mature).
-- Possible v3.x: window resize handles, visitor-presence gimmick, a real
-  `screensaver` after idle.
+- Nothing scheduled. Tag new CLIs `cli` on GitHub; add a RUN_QUIPS line in
+  js/breakpkg.js if it deserves a joke, and a BIN entry if its command name
+  differs from the repo name.
 - Constraint that will not move: no frameworks, no build step, every stat
-  shown must be true.
+  shown must be true, no hand-kept facts.

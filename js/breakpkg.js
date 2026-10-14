@@ -1,95 +1,14 @@
 // ════════════════════════════════════════════════
 //  BREAKPKG — package manager for the CLI family.
-//  every row is a real repo; agent-wrapped's version is
-//  fetched live from the npm registry. no fake numbers.
+//  the list is every public repo tagged `cli` on github,
+//  read from the shared repos fetch. nothing here is hand-kept
+//  except the jokes and two bin names that differ from the repo.
 //  terminal.js reads window.BREAKPKG for pkg/man commands.
 // ════════════════════════════════════════════════
 (function breakpkg() {
-  const PKGS = [
-    {
-      bin: "swatch",
-      repo: "swatch",
-      desc: "themes the whole macOS desktop from one palette.toml — 21 surfaces, one command.",
-      man: "swatch apply <palette> — writes Ghostty, btop, sketchybar, Zen, Cider, Legcord, yazi, zed, vscode and friends from a single palette file. swatch build <image> starts a theme from a wallpaper.",
-    },
-    {
-      bin: "juke",
-      repo: "jukebox",
-      desc: "Apple Music in the terminal. search, queue, and control playback without leaving the shell.",
-      man: "juke play <query> — plays via Music.app or Cider. juke queue, juke skip, juke now. the prompt becomes a now-playing screen.",
-    },
-    {
-      bin: "jazz",
-      repo: "jazz",
-      desc: "focus videos rendered into the terminal via the Kitty graphics protocol. loops forever.",
-      man: "jazz <file|url> — renders video into Ghostty, local files or anything yt-dlp can reach. made for lo-fi loops behind work.",
-    },
-    {
-      bin: "bacpack",
-      repo: "bacpack",
-      desc: "ManageBac from the terminal: what's due, class files, CAS logging, portfolio entries.",
-      man: "bacpack due — lists deadlines. bacpack files <class> downloads handouts. bacpack cas logs experiences and reflections without opening a browser.",
-    },
-    {
-      bin: "dt",
-      repo: "dovetail",
-      desc: "finds, backs up, diffs and restores macOS app configs through a local git store.",
-      man: "dt track <app> — snapshots configs into ~/.dotfiles. dt diff shows what changed, dt restore puts it back. for the day you break your zshrc.",
-    },
-    {
-      bin: "cine",
-      repo: "cine",
-      desc: "Village Cinemas showtimes with IMDB + RT verdicts, and a streaming tab that plays into IINA.",
-      man: "cine — what's playing in Athens, with verdicts attached. cine watch <title> streams into IINA. can alert when booking opens.",
-    },
-    {
-      bin: "agent-wrapped",
-      repo: "agent-wrapped",
-      npm: "@nitrimandylis/agent-wrapped",
-      desc: "your Claude Code month as a scored, shareable card. offline, nothing uploaded.",
-      man: "bunx @nitrimandylis/agent-wrapped — reads ~30 days of local transcripts, scores them, assigns an archetype, renders a PNG/SVG card with the would-be API cost.",
-    },
-    {
-      bin: "aidetect",
-      repo: "aidetect",
-      chan: "pypi",
-      desc: "counts a draft the way the IB counts it, then scores how AI-written it reads. offline.",
-      man: "aidetect count draft.docx --limit 4000 — word count by section against the limit. aidetect score runs a DeBERTa detector over your own prose before a teacher runs Turnitin. uv tool install aidetect.",
-    },
-    {
-      bin: "brushwork",
-      repo: "brushwork",
-      npm: "brushwork",
-      desc: "repaints a photograph as visible brush strokes. oil, watercolour or ink.",
-      man: "brushwork photo.jpg --style oil — repaints the image stroke by stroke. --brush, --detail, --texture and --seed control the hand; --sheet renders a contact sheet of variants.",
-    },
-    {
-      bin: "nous",
-      repo: "nous",
-      desc: "any folder of linked markdown as a force graph, served on localhost.",
-      man: "nous <dir> — serves the vault as a graph and opens a browser. nous build <file> writes a standalone HTML you can send someone. its own theme format, config in ~/.config/nous.",
-    },
-    {
-      bin: "nocturne",
-      repo: "nocturne",
-      desc: "a terminal music visualizer shaped like an apartment building, lit by system audio.",
-      man: "nocturne — taps macOS system audio through Core Audio and flashes windows in a night-time building. --web mirrors the same building into a browser.",
-    },
-    {
-      bin: "shelf",
-      repo: "shelf",
-      desc: "every repo you have, on GitHub and on this machine, in one table.",
-      man: "shelf — lists GitHub ∪ local git repos with warm/cold triage. shelf audit flags missing READMEs, licenses, unpushed commits and dirty trees. shelf show <repo> for the detail.",
-    },
-  ];
+  // repo name → the command it installs, where they differ
+  const BIN = { jukebox: "juke", dovetail: "dt" };
 
-  const GH = "https://github.com/nitrimandylis/";
-  // repos that ship a real man page at man/<bin>.1 (agent-wrapped
-  // doesn't — its `man` falls back to the blurb above)
-  const HAS_MAN = [
-    "swatch", "juke", "jazz", "bacpack", "dt", "cine",
-    "nous", "nocturne", "shelf",
-  ];
   // what happens when you run the bin inside a browser tab
   const RUN_QUIPS = {
     swatch: "swatch: no desktop surfaces found to theme. ironic, given the surroundings.",
@@ -105,45 +24,9 @@
     nous: "nous: no markdown vault at this path. the graph is empty and so is the folder.",
     nocturne: "nocturne: no audio device in a browser tab. the building stays dark.",
     shelf: "shelf: 1 repo found on this machine. you are looking at it.",
+    lamp: "lamp: no lamp on this network. the night shift works in the dark.",
+    deeplarp: "deeplarp: scoring this site… it is a fake operating system. larp score: 100.",
   };
-  PKGS.forEach((p) => {
-    p.url = GH + p.repo;
-    if (HAS_MAN.includes(p.bin))
-      p.manUrl =
-        "https://raw.githubusercontent.com/nitrimandylis/" +
-        p.repo +
-        "/main/man/" +
-        p.bin +
-        ".1";
-    p.quip = RUN_QUIPS[p.bin];
-  });
-
-  // live npm version, 30-min cache — same pattern as the repos fetch
-  const NPM_KEY = "breakos-npm-v1";
-  const NPM_TTL = 1000 * 60 * 30;
-  function npmVersion(pkg) {
-    try {
-      const c = JSON.parse(localStorage.getItem(NPM_KEY) || "null");
-      if (c && Date.now() - c.at < NPM_TTL && c.v[pkg])
-        return Promise.resolve(c.v[pkg]);
-    } catch (_) {}
-    return fetch(
-      "https://registry.npmjs.org/" + encodeURIComponent(pkg) + "/latest",
-    )
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((j) => {
-        try {
-          const c = JSON.parse(localStorage.getItem(NPM_KEY) || "null") || {
-            at: Date.now(),
-            v: {},
-          };
-          c.v[pkg] = j.version;
-          c.at = Date.now();
-          localStorage.setItem(NPM_KEY, JSON.stringify(c));
-        } catch (_) {}
-        return j.version;
-      });
-  }
 
   const relTime = (iso) => {
     const days = Math.floor((Date.now() - new Date(iso)) / 86400000);
@@ -154,51 +37,59 @@
     return Math.floor(days / 365) + "y ago";
   };
 
+  const PKGS = [];
+  window.BREAKPKG = PKGS; // filled once the repos arrive
+
   const table = document.getElementById("pkg-table");
   const loading = document.getElementById("pkg-loading");
+  const status = document.getElementById("pkg-status");
 
-  function render(repoIndex) {
+  function render(repos) {
     loading.remove();
-    PKGS.forEach((p) => {
-      const r = repoIndex[p.repo.toLowerCase()];
-      const row = document.createElement("a");
-      row.className = "pkgrow pkgpkg";
-      row.href = p.url;
-      row.target = "_blank";
-      row.rel = "noopener";
-      const chan = document.createElement("span");
-      chan.className = "pkg-chan";
-      chan.textContent = p.npm ? "npm" : p.chan || "source";
-      if (p.npm)
-        npmVersion(p.npm)
-          .then((v) => (chan.textContent = "npm v" + v))
-          .catch(() => {});
-      const name = document.createElement("span");
-      name.className = "pkg-name";
-      name.textContent = p.bin;
-      const lang = document.createElement("span");
-      lang.textContent = r ? r.language || "vibes" : "—";
-      const pushed = document.createElement("span");
-      pushed.textContent = r ? relTime(r.pushed_at) : "—";
-      row.append(name, chan, lang, pushed);
-      const desc = document.createElement("span");
-      desc.className = "pkg-desc";
-      desc.textContent = p.desc;
-      row.appendChild(desc);
-      table.appendChild(row);
-    });
+    repos
+      .filter((r) => !r.fork && (r.topics || []).includes("cli"))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((r) => {
+        const bin = BIN[r.name] || r.name;
+        const p = {
+          bin,
+          repo: r.name,
+          desc: r.description || "no description. it speaks for itself.",
+          url: r.html_url,
+          // tried on `man`; a repo without one falls back to the description
+          manUrl:
+            "https://raw.githubusercontent.com/nitrimandylis/" +
+            r.name + "/" + (r.default_branch || "main") + "/man/" + bin + ".1",
+          quip: RUN_QUIPS[bin],
+        };
+        PKGS.push(p);
+
+        const row = document.createElement("a");
+        row.className = "pkgrow pkgpkg";
+        row.href = p.url;
+        row.target = "_blank";
+        row.rel = "noopener";
+        const name = document.createElement("span");
+        name.className = "pkg-name";
+        name.textContent = bin;
+        const lang = document.createElement("span");
+        lang.textContent = r.language || "vibes";
+        const pushed = document.createElement("span");
+        pushed.textContent = relTime(r.pushed_at);
+        const desc = document.createElement("span");
+        desc.className = "pkg-desc";
+        desc.textContent = p.desc;
+        row.append(name, lang, pushed, desc);
+        table.appendChild(row);
+      });
+    status.textContent =
+      PKGS.length + " packages · 0 vulnerabilities · audited by vibes";
   }
 
   function fail() {
     loading.textContent =
-      "registry unreachable. the packages exist — github.com/nitrimandylis";
+      "registry unreachable. github is on a break. the packages exist: github.com/nitrimandylis";
   }
 
-  window.BREAKOS_REPOS.then((repos) => {
-    const idx = {};
-    repos.forEach((r) => (idx[r.name.toLowerCase()] = r));
-    render(idx);
-  }).catch(fail);
-
-  window.BREAKPKG = PKGS;
+  window.BREAKOS_REPOS.then(render).catch(fail);
 })();

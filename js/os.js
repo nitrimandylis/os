@@ -26,9 +26,9 @@ document
 
 // ── kernel log (console easter egg) ──
 console.log(
-  "%cbreakOS kernel 3.0%c\n[ ok ] devtools detected — promoting visitor to power user\n[ ok ] this console is the only part of the site with no CSS. enjoy the silence\n[warn] the OS is a metaphor. the repos are real: https://github.com/nitrimandylis\n[ ok ] the windows drag now. try throwing a project in the trash. it won't work.",
+  "%cbreakOS kernel 4.0%c\n[ ok ] devtools detected — promoting visitor to power user\n[ ok ] this console is the only part of the site with no CSS. enjoy the silence\n[warn] the OS is a metaphor. the repos are real: https://github.com/nitrimandylis\n[ ok ] the windows drag now. try throwing a file in the trash. it won't work.",
   "color:#f25c4a;font-size:20px;font-family:monospace;font-weight:bold",
-  "color:#1f8a8c;font-family:monospace;font-size:12px",
+  "color:#8a8a8a;font-family:monospace;font-size:12px",
 );
 
 // ── tab title gag ──
@@ -147,7 +147,6 @@ try {
 const iconKey = (icon) =>
   icon.id ||
   icon.dataset.open ||
-  icon.dataset.doc ||
   (icon.querySelector(".icon-label")?.textContent || "");
 
 // restore saved spots (stored as viewport percentages)
@@ -263,7 +262,6 @@ if (DESKTOP) {
       clearIconSel();
       if (icon.dataset.open) return openApp(icon.dataset.open, "icon");
       if (icon.id === "icon-trash") return trashSummary();
-      if (icon.dataset.doc) return openDoc(icon.dataset.doc);
       const q = ICON_QUIPS[iconKey(icon)];
       if (q) notify(q, 3200);
     });
@@ -337,7 +335,7 @@ if (DESKTOP) {
 // ════════════════════════════════════════════════
 const tray = document.getElementById("tb-tray");
 const CLOSE_QUIPS = {
-  "things-i-made": "things-i-made moved to Trash. the projects remain shipped.",
+  "things-i-made": "things-i-made moved to Trash. the leftovers stay put.",
   "system-monitor":
     "monitor closed. the processes keep running. they always do.",
   breakpkg: "breakpkg closed. the packages stay installed. that's the deal.",
@@ -744,7 +742,7 @@ function enterDesktop() {
   else {
     stage.classList.add("on");
     gsap.from(stage, { opacity: 0, duration: 0.35, ease: "power1.out" });
-    gsap.from(".app-icon, .icon.doc", {
+    gsap.from(".app-icon", {
       opacity: 0,
       y: 6,
       duration: 0.25,
@@ -851,85 +849,68 @@ window.BREAKOS_REPOS = (function () {
     });
 })();
 
-// ── file manager ──
-const FILE_COPY = {
-  "llm-mafia": {
-    label: "llm_mafia.py",
-    year: 2025,
-    verdict: "LLMs lie. Prove it.",
-    voice: "No humans. Pure model-vs-model deception.",
-    body: "Fully autonomous Mafia — every player is an LLM with a role, a personality, and a win condition. They reason, accuse, and vote through parallel model inference, and a separate model narrates. Three backends: LM Studio (local), NVIDIA NIM, or the Claude Code CLI. Finished games are replayed in a Next.js viewer as noir episodes, and a weekly cron keeps publishing new cases. You just watch the town burn.",
-    kind: "python · next.js · ai",
+// ── file manager: fixed leftovers. the real list lives on nicktrim.com ──
+// shared with the terminal's ls/cat, and with the trash
+window.BREAKOS_FILES = [
+  {
+    name: "the_real_list.url",
+    kind: "internet shortcut",
+    verdict: "everything nick made. not here.",
+    url: "https://nicktrim.com/work",
+    body: "the actual list of things nick made lives at nicktrim.com/work. this folder only keeps the leftovers.",
+    trash: "the_real_list.url is a shortcut. deleting it deletes nothing. the list lives elsewhere.",
   },
-  tokenpilot: {
-    label: "tokenpilot.ts",
-    year: 2026,
-    verdict: "see everything. touch nothing.",
-    voice: "LLM spend auditor. your CFO may weep.",
-    body: "Reads your Anthropic and OpenAI Admin APIs, runs actual token volumes through a 6-rule detection engine, returns confidence-scored savings recommendations. Everything client-side — keys live in sessionStorage, die when the tab does. Next.js 16, TypeScript strict, React 19.",
-    kind: "typescript · next.js",
+  {
+    name: "todo_FINAL.txt",
+    kind: "plain text · 3 lines",
+    verdict: "item 3 says see item 1.",
+    body: "1. finish side project.\n2. start new side project.\n3. see 1.",
+    trash: "todo_FINAL.txt cannot be deleted. it is not finished.",
   },
-  aidetect: {
-    label: "aidetect.py",
-    year: 2026,
-    verdict: "reads a draft the way a machine would.",
-    voice: "Offline AI-writing detector, pointed at your own coursework.",
-    body: "Scores a draft paragraph by paragraph for how AI-generated it reads, before anyone else runs it through Turnitin — and counts the words the way the IB counts them, by section, against the limit. A DeBERTa classifier plus a Binoculars-style perplexity check, both local: the model downloads once and the draft never leaves the machine. On PyPI, one uv install, no clone to keep.",
-    kind: "python · cli · pypi",
+  {
+    name: "ideas_3am.md",
+    kind: "markdown · 47 entries",
+    verdict: "two are good. nobody knows which.",
+    body: "47 ideas, all written between 1am and 4am. two of them are good. the rest became repos anyway.",
+    trash: "ideas_3am.md resists. one of these might be the good one.",
   },
-  bacpack: {
-    label: "bacpack.ts",
-    year: 2026,
-    verdict: "school, minus the browser.",
-    voice: "ManageBac from the terminal.",
-    body: "Reads a ManageBac account from the shell: what is due and what is already overdue, the handouts for a class, CAS experiences and reflections, Learner Portfolio entries — logged without opening a tab. Bun and TypeScript, zero runtime dependencies, one session cookie, and a scraper reverse-engineered form by form because there is no API.",
-    kind: "typescript · cli",
+  {
+    name: "node_modules",
+    kind: "folder · 1.2 GB",
+    verdict: "do not open.",
+    body: "1.2 GB. contents unknown. you opened it anyway. it has a node_modules of its own.",
+    trash: "node_modules is too large for the trash. the trash asked for a bigger trash.",
   },
-  gridcast: {
-    label: "gridcast.py",
-    year: 2026,
-    verdict: "the prediction is committed before the race.",
-    voice: "F1 race outcomes as probabilities, scored in public.",
-    body: "A Plackett-Luce model over FastF1 lap data that outputs P(win), P(podium) and P(points) for all twenty drivers, not one guessed finishing order. Every prediction is committed to git before lights out, so the timestamp is the git history and the scorecard cannot be edited after the fact. Walk-forward validated against a grid-order baseline: 0.134 mean RPS versus 0.166, beating it in seven of nine races.",
-    kind: "python · fastf1 · stats",
+  {
+    name: "breakos.sys",
+    kind: "system file",
+    verdict: "the old site, on the night shift.",
+    body: "this site. it used to be the portfolio. now it works nights at os.nicktrim.com and the day job went to nicktrim.com.",
+    trash: "breakos.sys is in use by breakOS. by you, technically.",
   },
-  whimprflow: {
-    label: "whimprflow.rs",
-    year: 2026,
-    verdict: "hold a key, talk, keep the audio.",
-    voice: "Local-first voice dictation. Nothing leaves the machine.",
-    body: "A Tauri app in Rust and React: hold Fn, speak, Whisper transcribes on-device, an optional local LLM cleans the text up, and it pastes at the cursor. A fork taken over and polished — push-to-talk, multi-language, an overlay that survives Spaces and full-screen apps, and CI that builds the DMG. Greek in, English out, and it replaced the paid app it was imitating.",
-    kind: "rust · tauri · whisper",
+  {
+    name: "about.txt",
+    kind: "plain text",
+    verdict: "the short version.",
+    body: "nick trimandylis. the long version is at nicktrim.com/about.",
+    trash: "about.txt is the only copy of nick. denied.",
   },
-};
-
-// mirrors the six repos pinned on github.com/nitrimandylis, in pin order.
-// GitHub only exposes pins through the authenticated GraphQL API, so this
-// list cannot be fetched from a static page — re-sync it by hand when the
-// pins change. one accent colour each, readable on cream and on batman-jazz.
-const GALLERY = [
-  { key: "tokenpilot", accent: "#2f8f8c" },
-  { key: "llm-mafia", accent: "#7d5ba6" },
-  { key: "aidetect", accent: "#d64550" },
-  { key: "bacpack", accent: "#4a6fa5" },
-  { key: "gridcast", accent: "#d98324" },
-  { key: "whimprflow", accent: "#4f9d69" },
 ];
+const BREAKOS_FILE = (name) =>
+  window.BREAKOS_FILES.find((f) => f.name === name);
+
 
 const overlay = document.getElementById("overlay");
 
-function projectEntry(key) {
-  const c = FILE_COPY[key];
+function projectEntry(f) {
   return {
-    name: c.label,
-    kind: c.kind,
-    year: c.year,
-    verdict: c.verdict,
-    voice: c.voice,
-    body: c.body,
-    meta: "kind: " + c.kind + "\nyear: " + c.year + "\nstatus: " + c.verdict,
+    name: f.name,
+    voice: f.verdict,
+    body: f.body,
+    meta: "kind: " + f.kind,
   };
 }
+
 
 function openFile(f) {
   document.getElementById("ov-title").textContent = "▤ " + f.name;
@@ -937,61 +918,6 @@ function openFile(f) {
   document.getElementById("ov-voice").textContent = f.voice;
   document.getElementById("ov-body").textContent = f.body;
   document.getElementById("ov-meta").innerText = f.meta;
-  overlay.classList.add("open");
-}
-
-// ── coursework on the desk: real documents, described but not distributed ──
-const DOC_COPY = {
-  ee: {
-    label: "extended_essay.docx",
-    kind: "business management · extended essay",
-    status: "submitted · feedback in",
-    voice: "4,000 words on the company that ate the GPU market.",
-    body: "The IB Extended Essay, on NVIDIA — how a graphics-card company became the axis of the AI buildout, examined with Business Management tools. Ansoff, Porter, SWOT, product life cycle, and five years of financial ratios. Submitted July 2026; supervisor feedback is in and being worked through.",
-  },
-  business_ia: {
-    label: "business_ia.docx",
-    kind: "business management · IA",
-    status: "second draft submitted",
-    voice: "A commentary on Roblox. The users build the product.",
-    body: "Business Management IA on Roblox Corporation: has it actually captured young audiences, and does the 2021-2025 financial record agree? Primary survey data, financial tables, MLA9. Second draft went in August 2026 — sharper argument, fewer adjectives.",
-  },
-  cs_ia: {
-    label: "cs_ia.docx",
-    kind: "computer science · IA",
-    status: "draft submitted",
-    voice: "Focal — a photo manager built for a real client.",
-    body: "The CS IA: Focal, a desktop photo manager. Flask and SQLite wrapped in pywebview, built against a real client's requirements and documented to IB spec — success criteria, decomposition, mockups, a test plan per criterion. The code is done; the draft is with the teacher.",
-  },
-  math_ia: {
-    label: "math_ia.docx",
-    kind: "mathematics AA HL · IA",
-    status: "in progress",
-    voice: "Graph theory, applied until it confesses.",
-    body: "Mathematics AA HL exploration: graph theory applied to decentralized computer networks. Dijkstra and the Chinese postman problem where the proof carries the argument, Python where it stops carrying it. Proofs where possible, simulation where honest.",
-  },
-  gp_ia: {
-    label: "gp_ia.docx",
-    kind: "global politics · IA",
-    status: "first draft, September",
-    voice: "Greek education and who actually gets a say.",
-    body: "The Global Politics Engagement Project: does the Greek high school system prepare young people for democratic participation? Two opposed perspectives, power and legitimacy as the concepts, a liberal lens, and a survey run on the students it is about.",
-  },
-};
-
-function openDoc(k) {
-  const d = DOC_COPY[k];
-  if (!d) return;
-  document.getElementById("ov-title").textContent = "❒ " + d.label;
-  document.getElementById("ov-name").textContent = d.label;
-  document.getElementById("ov-voice").textContent = d.voice;
-  document.getElementById("ov-body").textContent = d.body;
-  document.getElementById("ov-meta").innerText =
-    "kind: " +
-    d.kind +
-    "\nstatus: " +
-    d.status +
-    "\ndownload: disabled — sealed until results day";
   overlay.classList.add("open");
 }
 
@@ -1010,14 +936,11 @@ function paintTrashLabel() {
       : "trash (" + trashTries + (trashTries === 1 ? " attempt)" : " attempts)");
 }
 paintTrashLabel();
-const TRASH_QUIPS = {
-  tokenpilot: "tokenpilot.ts audited the delete request. denied: wasteful.",
-  "llm-mafia": "llm_mafia.py refused. the town voted against it.",
-  aidetect: "aidetect.py scored that request. it reads machine-written.",
-  bacpack: "bacpack.ts checked the calendar. deleting this is not due.",
-  gridcast: "gridcast.py gives that deletion a 4% chance. it is already committed.",
-  whimprflow: "whimprflow.rs heard the request. it transcribed 'no'.",
-};
+function trashQuip(name) {
+  const f = BREAKOS_FILE(name);
+  return f ? f.trash : "file cannot be deleted: it shipped.";
+}
+
 function trashAttempt(key) {
   trashTries++;
   try {
@@ -1025,7 +948,7 @@ function trashAttempt(key) {
   } catch (_) {}
   paintTrashLabel();
   notify(
-    (TRASH_QUIPS[key] || "file cannot be deleted: it shipped.") +
+    trashQuip(key) +
       " (attempt #" +
       trashTries +
       ")",
@@ -1034,7 +957,7 @@ function trashAttempt(key) {
 }
 function trashSummary() {
   notify(
-    "trash contains: 0 projects, " +
+    "trash contains: 0 files, " +
       trashTries +
       " failed attempts, 1 crumpled cover letter. everything shipped.",
     3600,
@@ -1123,13 +1046,11 @@ function wireFileDrag(card, key) {
   });
 }
 
-// poster gallery
+// leftovers gallery
 const posterGrid = document.getElementById("poster-grid");
-GALLERY.forEach(({ key, accent }) => {
-  const c = FILE_COPY[key];
+window.BREAKOS_FILES.forEach((f) => {
   const card = document.createElement("button");
   card.className = "poster-card";
-  card.style.setProperty("--accent", accent);
   card.innerHTML =
     '<span class="poster-bar">' +
     '<span class="poster-dot"></span>' +
@@ -1138,19 +1059,23 @@ GALLERY.forEach(({ key, accent }) => {
     "</span>" +
     '<span class="poster-body">' +
     '<span class="poster-name">' +
-    c.label +
+    f.name +
     "</span>" +
     '<span class="poster-verdict">' +
-    c.verdict +
+    f.verdict +
     "</span>" +
     '<span class="poster-kind">' +
-    c.kind +
+    f.kind +
     "</span>" +
     "</span>";
-  card.addEventListener("click", () => openFile(projectEntry(key)));
-  wireFileDrag(card, key);
+  card.addEventListener("click", () => {
+    if (f.url) window.open(f.url, "_blank", "noopener");
+    else openFile(projectEntry(f));
+  });
+  wireFileDrag(card, f.name);
   posterGrid.appendChild(card);
 });
+
 document
   .getElementById("ov-close")
   .addEventListener("click", () => overlay.classList.remove("open"));
@@ -1161,187 +1086,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     overlay.classList.remove("open");
     hideMenu();
-    hideThemeMenu();
     sdModal.classList.remove("open");
     clearIconSel();
   }
 });
-
-// ── appearance: cream (default) / batman-jazz / any swatchbook palette ──
-// the <head> already applied the saved theme before paint; here we wire the
-// taskbar toggle and expose hooks the terminal's theme/swatch commands call.
-const THEME_KEY = "breakos-theme";
-const THEME_VARS_KEY = "breakos-theme-vars";
-const THEME_VAR_NAMES = [
-  "--paper",
-  "--paper-deep",
-  "--ink",
-  "--ink-soft",
-  "--coral",
-  "--teal",
-  "--teal-deep",
-  "--win",
-  "--bevel-light",
-  "--bevel-dark",
-];
-
-// move a hex toward white (f > 0) or black (f < 0)
-function shade(hex, f) {
-  const n = parseInt(hex.slice(1), 16);
-  const t = f < 0 ? 0 : 255;
-  const p = Math.abs(f);
-  const ch = (c) => Math.round(c + (t - c) * p);
-  const r = ch((n >> 16) & 255),
-    g = ch((n >> 8) & 255),
-    b = ch(n & 255);
-  return "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
-}
-
-// swatch roles → the site's design tokens
-function varsFromRoles(roles) {
-  return {
-    "--paper": roles.base,
-    "--paper-deep": roles.overlay || roles.surface,
-    "--ink": roles.text,
-    "--ink-soft": roles.muted,
-    "--coral": roles.accent,
-    "--teal": roles.deep || roles.accent,
-    "--teal-deep": shade(roles.deep || roles.accent, -0.2),
-    "--win": roles.surface,
-    "--bevel-light": shade(roles.surface, 0.12),
-    "--bevel-dark": shade(roles.base, -0.5),
-  };
-}
-
-function clearCustomTheme() {
-  const root = document.documentElement;
-  THEME_VAR_NAMES.forEach((k) => root.style.removeProperty(k));
-  root.removeAttribute("data-variant");
-  localStorage.removeItem(THEME_VARS_KEY);
-  if (window.__setWallDot) window.__setWallDot(null);
-}
-
-function applyTheme(name) {
-  if (name === "batman-jazz" || name === "jazz" || name === "dark")
-    name = "batman";
-  if (name === "cream" || name === "light") name = "default";
-  const root = document.documentElement;
-  if (name === "batman" || name === "default") {
-    clearCustomTheme();
-    if (name === "batman") root.setAttribute("data-theme", "batman");
-    else root.removeAttribute("data-theme");
-    localStorage.setItem(THEME_KEY, name);
-    return Promise.resolve(true);
-  }
-  return window
-    .BREAKOS_SWATCHBOOK()
-    .then((themes) => {
-      const t = themes[name];
-      if (!t) return false;
-      const vars = varsFromRoles(t.roles);
-      root.setAttribute("data-theme", "swatch");
-      root.setAttribute("data-variant", t.variant);
-      Object.entries(vars).forEach(
-        ([k, v]) => v && root.style.setProperty(k, v),
-      );
-      localStorage.setItem(THEME_KEY, name);
-      localStorage.setItem(
-        THEME_VARS_KEY,
-        JSON.stringify({ vars, variant: t.variant }),
-      );
-      if (window.__setWallDot) window.__setWallDot(vars["--teal"]);
-      return true;
-    })
-    .catch(() => false);
-}
-window.__getTheme = () => localStorage.getItem(THEME_KEY) || "default";
-window.__setTheme = applyTheme;
-
-// a custom theme restored by the <head> script needs its wallpaper dots back
-try {
-  const saved = JSON.parse(localStorage.getItem(THEME_VARS_KEY) || "null");
-  if (saved && window.__setWallDot) window.__setWallDot(saved.vars["--teal"]);
-} catch (_) {}
-
-// taskbar ◐ theme opens a picker. choosing applies live and keeps the
-// menu open — it's a theme browser, not a form. outside click / Esc closes.
-const themeMenu = document.getElementById("theme-menu");
-const themeBtn = document.getElementById("tb-theme");
-
-function hideThemeMenu() {
-  themeMenu.classList.remove("open");
-  themeMenu.setAttribute("aria-hidden", "true");
-}
-
-function buildThemeMenu(themes) {
-  const cur = window.__getTheme();
-  themeMenu.innerHTML = "";
-  const head = document.createElement("p");
-  head.className = "sm-head";
-  head.textContent = "appearance";
-  themeMenu.appendChild(head);
-  const items = [
-    { id: "default", label: "cream (default)", variant: "light" },
-    { id: "batman", label: "batman jazz", variant: "dark" },
-  ].concat(
-    Object.values(themes || {}).map((t) => ({
-      id: t.id,
-      label: t.id,
-      variant: t.variant,
-    })),
-  );
-  items.forEach((it) => {
-    const b = document.createElement("button");
-    b.className = "sm-item tm-item" + (it.id === cur ? " tm-current" : "");
-    b.innerHTML =
-      '<span class="tm-mark">' +
-      (it.id === cur ? "●" : "○") +
-      "</span> " +
-      it.label +
-      ' <span class="tm-variant">' +
-      it.variant +
-      "</span>";
-    b.addEventListener("click", (e) => {
-      e.stopPropagation();
-      applyTheme(it.id).then((ok) => {
-        if (ok) buildThemeMenu(themes); // move the ● marker, stay open
-      });
-    });
-    themeMenu.appendChild(b);
-  });
-  if (!themes) {
-    const p = document.createElement("p");
-    p.className = "tm-loading";
-    p.textContent = "resolving swatchbook…";
-    themeMenu.appendChild(p);
-  }
-}
-
-if (themeBtn) {
-  themeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (themeMenu.classList.contains("open")) return hideThemeMenu();
-    buildThemeMenu(null);
-    themeMenu.classList.add("open");
-    themeMenu.setAttribute("aria-hidden", "false");
-    window
-      .BREAKOS_SWATCHBOOK()
-      .then((t) => {
-        if (themeMenu.classList.contains("open")) buildThemeMenu(t);
-      })
-      .catch(() => {
-        const p = themeMenu.querySelector(".tm-loading");
-        if (p) p.textContent = "swatchbook unreachable — built-ins only.";
-      });
-  });
-  document.addEventListener("click", (e) => {
-    if (
-      themeMenu.classList.contains("open") &&
-      !themeMenu.contains(e.target)
-    )
-      hideThemeMenu();
-  });
-}
 
 // ── shutdown → BSOD → reboot ──
 const bsod = document.getElementById("bsod");
@@ -1596,7 +1344,7 @@ const MAFIA_CAST = [
   { name: "ARIA", col: "#8b8f9c" }, // villager gray
 ];
 const MAFIA_CHARGES = {
-  "things-i-made": "six perfect alibis. nobody ships that clean.",
+  "things-i-made": "says the real list is somewhere else. convenient.",
   breakpkg: "installs nothing, calls itself a package manager.",
   "system-monitor": "it has been watching everyone all session.",
   terminal: "it executes whatever it is told. classic accomplice.",

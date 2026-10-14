@@ -7,70 +7,21 @@
 }
 
 :root {
-  --paper: #f3e9d6;
-  --paper-deep: #e9dcc3;
-  --ink: #1d2438;
-  --ink-soft: #4a5068;
+  /* man(1), same as nicktrim.com: black, one text colour, one grey, one rule
+     colour. coral is the only accent, kept for focus and selection */
+  --paper: #000;
+  --paper-deep: #000;
+  --ink: #e6e6e6;
+  --ink-soft: #8a8a8a;
+  --line: #262626;
   --coral: #f25c4a;
-  --teal: #1f8a8c;
-  --teal-deep: #14595b;
-  --win: #fbf5e9;
-  --bevel-light: #fffdf7;
-  --bevel-dark: #b9a98a;
+  --win: #000;
   --ff-chrome: "VT323", monospace;
   --ff-body: "Atkinson Hyperlegible", sans-serif;
   --ff-mono: "IBM Plex Mono", monospace;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* strong ease-out — UI enters want punch, not mush */
   --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* ── batman-jazz theme (taskbar toggle / `theme` command) ── */
-[data-theme="batman"] {
-  --paper: #0b0e16; /* near-black room */
-  --paper-deep: #141a28;
-  --ink: #e8ecf5; /* light text on dark */
-  --ink-soft: #93a0bd; /* steel-blue midtone */
-  --coral: #e85a9c; /* neon-pink accent */
-  --teal: #6aa2b8; /* steel-blue */
-  --teal-deep: #3f7a8c;
-  --win: #10141f;
-  --bevel-light: #262f44;
-  --bevel-dark: #05070c;
-}
-/* the real wallpaper, behind a scrim tuned to keep windows legible */
-[data-theme="batman"] body {
-  background:
-    linear-gradient(rgba(8, 10, 18, 0.62), rgba(8, 10, 18, 0.8)),
-    url("../assets/batman-jazz.jpg") center / cover no-repeat fixed;
-}
-[data-theme="batman"] #wallpaper {
-  display: none; /* photo replaces the halftone canvas in this theme */
-}
-/* the terminal normally inverts to a dark box; on already-dark themes
-   (batman, or any dark swatchbook palette) match the other windows instead */
-[data-theme="batman"] .term-body,
-[data-variant="dark"] .term-body {
-  background: var(--win);
-  color: var(--ink);
-}
-[data-theme="batman"] #term-input,
-[data-variant="dark"] #term-input {
-  color: var(--ink);
-}
-/* faint labels use --bevel-dark, which is near-black here — lift them so they
-   stay readable without touching the bevel shadows that also use it */
-[data-theme="batman"] .section-label,
-[data-theme="batman"] .monhead,
-[data-theme="batman"] .pkghead,
-[data-theme="batman"] .mail-field span,
-[data-theme="batman"] .sd-fine,
-[data-variant="dark"] .section-label,
-[data-variant="dark"] .monhead,
-[data-variant="dark"] .pkghead,
-[data-variant="dark"] .mail-field span,
-[data-variant="dark"] .sd-fine {
-  color: var(--ink-soft);
 }
 
 html {
@@ -87,7 +38,7 @@ body {
 }
 
 ::selection {
-  background: var(--teal);
+  background: var(--coral);
   color: var(--paper);
 }
 
@@ -96,36 +47,12 @@ em {
   color: var(--coral);
 }
 
-/* ── wallpaper + CRT ── */
+/* ── wallpaper ── */
 #wallpaper {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-}
-.crt {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(29, 36, 56, 0.04) 0px,
-    rgba(29, 36, 56, 0.04) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  mix-blend-mode: multiply;
-}
-.crt::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 55%,
-    rgba(29, 36, 56, 0.12) 100%
-  );
 }
 
 /* ── desktop icons ── */
@@ -205,7 +132,7 @@ em {
   min-height: 14em;
 }
 .boot-log .ok {
-  color: var(--teal-deep);
+  color: var(--ink);
 }
 .boot-log .warn {
   color: var(--coral);
@@ -248,11 +175,7 @@ em {
 .window {
   width: min(760px, 100%);
   background: var(--win);
-  border: 2px solid var(--ink);
-  box-shadow:
-    inset 1px 1px 0 var(--bevel-light),
-    inset -2px -2px 0 var(--bevel-dark),
-    8px 8px 0 rgba(29, 36, 56, 0.18);
+  border: 1px solid var(--line);
   will-change: transform;
 }
 .window.maximized {
@@ -279,10 +202,10 @@ em {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--teal);
+  background: var(--coral);
   color: var(--paper);
   padding: 6px 10px;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 .tb-title {
   font-family: var(--ff-chrome);
@@ -300,7 +223,7 @@ em {
   height: 24px;
   background: var(--paper);
   color: var(--ink);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   cursor: pointer;
   line-height: 1;
 }
@@ -322,7 +245,7 @@ em {
 .section-label {
   font-family: var(--ff-chrome);
   font-size: 1rem;
-  color: var(--bevel-dark);
+  color: var(--ink-soft);
   letter-spacing: 0.05em;
   margin-bottom: 0.7rem;
 }
@@ -332,20 +255,19 @@ em {
   gap: 0.7rem;
 }
 .poster-card {
-  --accent: var(--teal);
+  --accent: var(--line);
   display: flex;
   flex-direction: column;
   min-height: 9.5rem;
   text-align: left;
   background: var(--win);
-  border: 1.5px solid var(--bevel-dark);
-  box-shadow: inset 1px 1px 0 var(--bevel-light);
+  border: 1px solid var(--line);
   cursor: pointer;
   transition: transform 0.14s var(--ease), box-shadow 0.14s var(--ease);
 }
 .poster-card:hover {
   transform: translateY(-3px);
-  box-shadow: inset 1px 1px 0 var(--bevel-light), 0 6px 0 -2px var(--accent);
+  box-shadow: 0 6px 0 -2px var(--accent);
 }
 .poster-bar {
   display: flex;
@@ -358,7 +280,7 @@ em {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--ink-soft);
 }
 .poster-body {
   display: flex;
@@ -378,7 +300,7 @@ em {
   font-family: var(--ff-body);
   font-style: italic;
   font-size: 0.9rem;
-  color: var(--accent);
+  color: var(--ink-soft);
 }
 .poster-kind {
   font-family: var(--ff-mono);
@@ -401,7 +323,7 @@ em {
   padding: 0.4rem 0.5rem;
   font-family: var(--ff-mono);
   font-size: 0.74rem;
-  border-bottom: 1px dashed var(--bevel-dark);
+  border-bottom: 1px dashed var(--line);
   color: var(--ink-soft);
 }
 .monrow a {
@@ -416,7 +338,7 @@ em {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--bevel-dark);
+  color: var(--ink-soft);
 }
 .mon-loading {
   font-family: var(--ff-chrome);
@@ -434,13 +356,13 @@ em {
   color: var(--ink-soft);
 }
 .mon-load em {
-  color: var(--teal-deep);
+  color: var(--ink);
 }
 
 /* ── terminal ── */
 .term-body {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--win);
+  color: var(--ink);
   font-family: var(--ff-chrome);
   font-size: 1.15rem;
   min-height: 280px;
@@ -453,12 +375,9 @@ em {
   white-space: pre-wrap;
   word-break: break-word;
 }
-.term-body em {
-  color: #f8b26a;
-}
 .term-body a {
-  color: #f8b26a;
-  text-decoration-color: var(--coral);
+  color: var(--ink);
+  text-decoration-color: var(--ink-soft);
 }
 /* echoed commands read like the live prompt — a coral anchor per block */
 .term-echo {
@@ -493,12 +412,8 @@ em {
   top: -0.7em;
   left: 12px;
   padding: 0 6px;
-  background: var(--ink);
-  color: #c96442;
-}
-[data-theme="batman"] .cc-box-title,
-[data-variant="dark"] .cc-box-title {
   background: var(--win);
+  color: #c96442;
 }
 .cc-cols {
   display: flex;
@@ -590,7 +505,7 @@ em {
   background: none;
   border: none;
   outline: none;
-  color: var(--paper);
+  color: var(--ink);
   font-family: var(--ff-chrome);
   font-size: 1.15rem;
   caret-color: var(--coral);
@@ -605,7 +520,7 @@ em {
 .about-seal {
   width: clamp(110px, 18vw, 170px);
   image-rendering: auto;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   background: var(--paper-deep);
   flex-shrink: 0;
 }
@@ -631,7 +546,7 @@ em {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--teal-deep);
+  color: var(--ink);
 }
 .spec-table dd {
   color: var(--ink-soft);
@@ -648,20 +563,19 @@ em {
   align-items: baseline;
   flex-wrap: wrap;
   padding: 0.5rem 0;
-  border-bottom: 1px dashed var(--bevel-dark);
+  border-bottom: 1px dashed var(--line);
   font-size: 0.95rem;
 }
 .mail-field span {
   font-family: var(--ff-mono);
   font-size: 0.72rem;
   text-transform: uppercase;
-  color: var(--bevel-dark);
+  color: var(--ink-soft);
   width: 4.5em;
 }
 .mail-field a {
-  color: var(--teal-deep);
-  text-decoration-style: wavy;
-  text-decoration-color: var(--coral);
+  color: var(--ink);
+  text-decoration-color: var(--ink-soft);
 }
 .mail-note {
   font-size: 0.78rem;
@@ -676,24 +590,22 @@ em {
   display: inline-block;
   font-family: var(--ff-chrome);
   font-size: 1.3rem;
-  background: var(--coral);
-  color: var(--paper);
-  border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 rgba(29, 36, 56, 0.25);
+  background: var(--win);
+  color: var(--ink);
+  border: 1px solid var(--line);
   padding: 0.3em 1.2em;
   text-decoration: none;
   transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 .mail-send:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 rgba(29, 36, 56, 0.25);
+  background: var(--coral);
+  color: var(--paper);
 }
 
 /* ── shutdown ── */
 .shutdown-dialog {
   background: var(--win);
-  border: 2px solid var(--ink);
-  box-shadow: 8px 8px 0 rgba(29, 36, 56, 0.18);
+  border: 1px solid var(--line);
   padding: 2.2rem 2.5rem;
   text-align: center;
   max-width: 460px;
@@ -720,9 +632,8 @@ em {
   padding: 0.3em 1.4em;
   background: var(--paper);
   color: var(--ink);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   cursor: pointer;
-  box-shadow: 4px 4px 0 rgba(29, 36, 56, 0.25);
 }
 .sd-btn:hover {
   background: var(--coral);
@@ -732,7 +643,7 @@ em {
 .sd-fine {
   font-family: var(--ff-mono);
   font-size: 0.68rem;
-  color: var(--bevel-dark);
+  color: var(--ink-soft);
 }
 
 /* ── taskbar ── */
@@ -748,18 +659,17 @@ em {
   height: 44px;
   padding: 0 10px;
   background: var(--paper-deep);
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--line);
   font-family: var(--ff-chrome);
 }
 .tb-start {
   font-family: var(--ff-chrome);
   font-size: 1.15rem;
-  background: var(--teal);
-  color: var(--paper);
-  border: 2px solid var(--ink);
+  background: var(--win);
+  color: var(--ink);
+  border: 1px solid var(--line);
   padding: 1px 12px;
   cursor: pointer;
-  box-shadow: 2px 2px 0 rgba(29, 36, 56, 0.3);
 }
 .tb-start:active {
   transform: translate(1px, 1px);
@@ -768,7 +678,7 @@ em {
 .tb-progress {
   flex: 1;
   height: 14px;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   background: var(--win);
 }
 .tb-progress-fill {
@@ -776,8 +686,8 @@ em {
   width: 0%;
   background: repeating-linear-gradient(
     90deg,
-    var(--teal) 0 8px,
-    var(--teal-deep) 8px 16px
+    var(--ink-soft) 0 8px,
+    var(--line) 8px 16px
   );
 }
 .tb-tray {
@@ -788,24 +698,11 @@ em {
   font-family: var(--ff-chrome);
   font-size: 0.95rem;
   background: var(--win);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   padding: 0 8px;
   cursor: pointer;
 }
 .tb-app:hover {
-  background: var(--coral);
-  color: var(--paper);
-}
-.tb-theme {
-  font-family: var(--ff-chrome);
-  font-size: 0.95rem;
-  background: var(--win);
-  color: var(--ink);
-  border: 2px solid var(--ink);
-  padding: 0 8px;
-  cursor: pointer;
-}
-.tb-theme:hover {
   background: var(--coral);
   color: var(--paper);
 }
@@ -822,8 +719,7 @@ em {
   z-index: 95;
   max-width: 320px;
   background: var(--win);
-  border: 2px solid var(--ink);
-  box-shadow: 6px 6px 0 rgba(29, 36, 56, 0.2);
+  border: 1px solid var(--line);
   padding: 0.7rem 1rem;
   font-family: var(--ff-chrome);
   font-size: 1.05rem;
@@ -843,7 +739,7 @@ em {
   position: fixed;
   inset: 0;
   z-index: 88;
-  background: rgba(29, 36, 56, 0.45);
+  background: rgba(0, 0, 0, 0.6);
   display: none;
   align-items: center;
   justify-content: center;
@@ -880,8 +776,8 @@ em {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--teal-deep);
-  color: var(--paper);
+  background: var(--paper);
+  color: var(--ink);
   display: none;
   align-items: center;
   justify-content: center;
@@ -898,6 +794,7 @@ em {
   line-height: 1.6;
 }
 .bsod-face {
+  color: var(--coral);
   font-size: 5rem;
   margin-bottom: 1rem;
 }
@@ -1085,31 +982,28 @@ em {
    v3 DESKTOP SESSION — real windows on a real stage
    ════════════════════════════════════════════════ */
 
-/* app + doc icons are <button>s — undo the button chrome, keep the icon look */
-.app-icon,
-.icon.doc {
+/* app icons are <button>s — undo the button chrome, keep the icon look */
+.app-icon {
   background: none;
   border: none;
   font: inherit;
+  color: inherit;
   padding: 0;
   transition: transform 120ms var(--ease-strong);
 }
-.app-icon .icon-float,
-.icon.doc .icon-float {
+.app-icon .icon-float {
   opacity: 0.8;
 }
-.app-icon:hover .icon-float,
-.icon.doc:hover .icon-float {
+.app-icon:hover .icon-float {
   opacity: 1;
 }
-.app-icon:active,
-.icon.doc:active {
+.app-icon:active {
   transform: scale(0.97);
 }
 
 /* selection — click an icon, or marquee an empty patch of desk */
 .icon.selected .icon-label {
-  background: var(--teal);
+  background: var(--coral);
   color: var(--paper);
 }
 .icon.selected .icon-float {
@@ -1124,8 +1018,8 @@ em {
 .marquee {
   position: fixed;
   z-index: 14;
-  border: 1.5px dashed var(--teal);
-  background: rgba(31, 138, 140, 0.12);
+  border: 1px dashed var(--coral);
+  background: rgba(242, 92, 74, 0.1);
   pointer-events: none;
 }
 /* while a marquee is live, nothing on the page is text-selectable */
@@ -1174,18 +1068,13 @@ body.desktop .titlebar {
   cursor: grab;
   user-select: none;
 }
-body.desktop .window.dragging {
-  box-shadow:
-    inset 1px 1px 0 var(--bevel-light),
-    inset -2px -2px 0 var(--bevel-dark),
-    14px 16px 0 rgba(29, 36, 56, 0.24);
-}
 body.desktop .window.dragging .titlebar {
   cursor: grabbing;
 }
 /* unfocused windows dim their titlebar — the OS knows where you are */
 body.desktop .window.inactive .titlebar {
-  background: var(--ink-soft);
+  background: var(--line);
+  color: var(--ink-soft);
 }
 /* the #stage selector above out-specifies plain .maximized — match it */
 body.desktop #stage .window.maximized {
@@ -1203,7 +1092,7 @@ body.desktop #stage .window.maximized .win-body {
   font-size: 0.95rem;
   background: var(--win);
   color: var(--ink);
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   padding: 0 8px;
   cursor: pointer;
   transition: transform 120ms var(--ease-strong), opacity 150ms ease;
@@ -1215,7 +1104,7 @@ body.desktop #stage .window.maximized .win-body {
   border-style: dashed;
 }
 .tb-task.active {
-  background: var(--teal);
+  background: var(--coral);
   color: var(--paper);
 }
 .tb-task:hover {
@@ -1236,10 +1125,7 @@ body.booted .tb-progress-fill {
   z-index: 96;
   min-width: 240px;
   background: var(--win);
-  border: 2px solid var(--ink);
-  box-shadow:
-    inset 1px 1px 0 var(--bevel-light),
-    8px 8px 0 rgba(29, 36, 56, 0.2);
+  border: 1px solid var(--line);
   padding: 0.4rem 0;
   opacity: 0;
   transform: translateY(6px) scale(0.97);
@@ -1275,8 +1161,11 @@ body.booted .tb-progress-fill {
   cursor: pointer;
 }
 .sm-item:hover {
-  background: var(--teal);
+  background: var(--coral);
   color: var(--paper);
+}
+a.sm-item {
+  text-decoration: none;
 }
 .sm-item:active {
   transform: scale(0.98);
@@ -1285,61 +1174,8 @@ body.booted .tb-progress-fill {
   background: var(--coral);
 }
 .sm-rule {
-  border-top: 1px dashed var(--bevel-dark);
+  border-top: 1px dashed var(--line);
   margin: 0.35rem 0;
-}
-
-/* theme picker — same chrome as the start menu, anchored to ◐ theme */
-.theme-menu {
-  position: fixed;
-  right: 56px;
-  bottom: 52px;
-  z-index: 96;
-  min-width: 230px;
-  max-height: min(60vh, 480px);
-  overflow-y: auto;
-  background: var(--win);
-  border: 2px solid var(--ink);
-  box-shadow:
-    inset 1px 1px 0 var(--bevel-light),
-    8px 8px 0 rgba(29, 36, 56, 0.2);
-  padding: 0.4rem 0;
-  opacity: 0;
-  transform: translateY(6px) scale(0.97);
-  transform-origin: 88% 100%;
-  pointer-events: none;
-  transition:
-    opacity 160ms var(--ease-strong),
-    transform 160ms var(--ease-strong);
-}
-.theme-menu.open {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
-}
-.tm-mark {
-  color: var(--coral);
-}
-.tm-current {
-  color: var(--coral);
-}
-.tm-variant {
-  float: right;
-  font-family: var(--ff-mono);
-  font-size: 0.6rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink-soft);
-  margin-top: 0.35em;
-}
-.sm-item:hover .tm-variant {
-  color: var(--paper);
-}
-.tm-loading {
-  font-family: var(--ff-chrome);
-  font-size: 1rem;
-  color: var(--ink-soft);
-  padding: 0.3rem 0.9rem;
 }
 
 /* shutdown modal shell (desktop) */
@@ -1347,7 +1183,7 @@ body.booted .tb-progress-fill {
   position: fixed;
   inset: 0;
   z-index: 89;
-  background: rgba(29, 36, 56, 0.45);
+  background: rgba(0, 0, 0, 0.6);
   display: none;
   align-items: center;
   justify-content: center;
@@ -1360,12 +1196,12 @@ body.booted .tb-progress-fill {
 /* breakpkg */
 .pkgrow {
   display: grid;
-  grid-template-columns: 1fr 0.9fr 0.7fr 0.9fr;
+  grid-template-columns: 1.2fr 0.8fr 0.8fr;
   gap: 0.1rem 0.5rem;
   padding: 0.45rem 0.5rem;
   font-family: var(--ff-mono);
   font-size: 0.74rem;
-  border-bottom: 1px dashed var(--bevel-dark);
+  border-bottom: 1px dashed var(--line);
   color: var(--ink-soft);
   text-decoration: none;
 }
@@ -1373,7 +1209,7 @@ body.booted .tb-progress-fill {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--bevel-dark);
+  color: var(--ink-soft);
 }
 .pkg-name {
   color: var(--ink);
@@ -1381,9 +1217,6 @@ body.booted .tb-progress-fill {
 }
 a.pkgrow:hover .pkg-name {
   color: var(--coral);
-}
-.pkg-chan {
-  color: var(--teal-deep);
 }
 .pkg-desc {
   grid-column: 1 / -1;
@@ -1397,7 +1230,6 @@ a.pkgrow:hover .pkg-name {
   pointer-events: none;
   opacity: 0.92;
   transform: rotate(2deg);
-  box-shadow: 10px 12px 0 rgba(29, 36, 56, 0.22);
 }
 
 /* f1 start lights (type "f1") — apex's design language, on loan:

@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>breakOS — Nick Trimandylis</title>
-    <meta name="description" content="breakOS: the operating system that is also a person. Portfolio of Nick Trimandylis." />
-    <meta property="og:title" content="breakOS — Nick Trimandylis" />
-    <meta property="og:description" content="breakOS: the operating system that is also a person. Portfolio of Nick Trimandylis." />
+    <title>night shift, nick trimandylis</title>
+    <meta name="description" content="the old site, disguised as an operating system." />
+    <meta property="og:title" content="night shift, nick trimandylis" />
+    <meta property="og:description" content="the old site, disguised as an operating system." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://os.nicktrim.com/" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="breakOS — Nick Trimandylis" />
-    <meta name="twitter:description" content="breakOS: the operating system that is also a person." />
+    <meta name="twitter:title" content="night shift, nick trimandylis" />
+    <meta name="twitter:description" content="the old site, disguised as an operating system." />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,34 +20,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/breakos.css" />
-    <script>
-      // apply saved appearance before first paint — no flash of the wrong
-      // theme. swatchbook themes restore from their cached variable snapshot.
-      try {
-        var th = localStorage.getItem("breakos-theme");
-        if (th === "batman")
-          document.documentElement.setAttribute("data-theme", "batman");
-        else if (th && th !== "default") {
-          var saved = JSON.parse(
-            localStorage.getItem("breakos-theme-vars") || "null",
-          );
-          if (saved) {
-            document.documentElement.setAttribute("data-theme", "swatch");
-            document.documentElement.setAttribute(
-              "data-variant",
-              saved.variant,
-            );
-            for (var k in saved.vars)
-              document.documentElement.style.setProperty(k, saved.vars[k]);
-          }
-        }
-      } catch (e) {}
-    </script>
   </head>
   <body>
     <!-- live wallpaper -->
     <canvas id="wallpaper" aria-hidden="true"></canvas>
-    <div class="crt" aria-hidden="true"></div>
 
     <!-- desktop icons: app launchers (left column, still) + decor (parallax) -->
     <div class="icons" aria-hidden="true">
@@ -73,22 +49,6 @@
       <!-- functional trash — drop a project file in, see what happens -->
       <button class="icon app-icon" id="icon-trash" style="top: 38%; right: 5%">
         <div class="icon-float"><span class="icon-glyph">🗑</span><span class="icon-label" id="trash-label">trash</span></div>
-      </button>
-      <!-- coursework: real documents, described on double-click, never downloadable -->
-      <button class="icon doc" data-doc="ee" style="top: 12%; right: 34%">
-        <div class="icon-float"><span class="icon-glyph">❒</span><span class="icon-label">extended_essay.docx</span></div>
-      </button>
-      <button class="icon doc" data-doc="business_ia" style="top: 27%; right: 30%">
-        <div class="icon-float"><span class="icon-glyph">❒</span><span class="icon-label">business_ia.docx</span></div>
-      </button>
-      <button class="icon doc" data-doc="cs_ia" style="top: 44%; right: 26%">
-        <div class="icon-float"><span class="icon-glyph">❒</span><span class="icon-label">cs_ia.docx</span></div>
-      </button>
-      <button class="icon doc" data-doc="math_ia" style="top: 61%; right: 31%">
-        <div class="icon-float"><span class="icon-glyph">❒</span><span class="icon-label">math_ia.docx</span></div>
-      </button>
-      <button class="icon doc" data-doc="gp_ia" style="top: 77%; right: 26%">
-        <div class="icon-float"><span class="icon-glyph">❒</span><span class="icon-label">gp_ia.docx</span></div>
       </button>
       <!-- decor: double-clickable jokes, not apps -->
       <div class="icon decor" data-depth="0.04" data-tilt="1.2" style="top: 14%; left: 14%">
@@ -122,8 +82,8 @@
       <section id="boot">
         <div class="boot-pin">
           <div class="boot-screen">
-            <p class="boot-brand">breakOS<span class="blink">_</span></p>
-            <p class="boot-ver">v3.0 — it builds. it breaks. it drags.</p>
+            <p class="boot-brand">night shift<span class="blink">_</span></p>
+            <p class="boot-ver">running breakOS v4. it builds. it breaks. it drags.</p>
             <div class="boot-log" id="boot-log"></div>
             <p class="boot-hint" id="boot-hint">▼ scroll to boot ▼</p>
           </div>
@@ -153,10 +113,10 @@
             </span>
           </div>
           <div class="win-body">
-            <p class="section-label">── pinned on github ──</p>
+            <p class="section-label">── leftovers ──</p>
             <div class="poster-grid" id="poster-grid"></div>
             <p class="win-status" id="files-status">
-              6 pinned · the rest run live in System Monitor
+              6 files · the real list is at nicktrim.com/work
             </p>
           </div>
         </div>
@@ -226,20 +186,19 @@
           </div>
           <div class="win-body">
             <p class="mon-note">
-              the CLI family — every row is a real repo. one escaped to npm;
-              its version below is fetched live. the rest ship as source.
+              the CLI family: every public repo tagged cli on github, fetched
+              live. the list keeps itself.
             </p>
             <div class="pkg-table" id="pkg-table">
               <div class="pkgrow pkghead">
-                <span>package</span><span>channel</span><span>lang</span
-                ><span>pushed</span>
+                <span>package</span><span>lang</span><span>pushed</span>
               </div>
               <p class="mon-loading" id="pkg-loading">
                 resolving registry<span class="blink">…</span>
               </p>
             </div>
             <p class="win-status" id="pkg-status">
-              7 packages · 0 vulnerabilities · audited by vibes
+              resolving · 0 vulnerabilities · audited by vibes
             </p>
           </div>
         </div>
@@ -317,8 +276,6 @@
                 <dd>1 × human, runs warm under deadline</dd>
                 <dt>languages</dt>
                 <dd>python · typescript · swift — whatever the idea needs</dd>
-                <dt>stack</dt>
-                <dd>next.js · bun · flask · vercel</dd>
                 <dt>focus</dt>
                 <dd>ai tools · web apps · terminal toys</dd>
                 <dt>memory</dt>
@@ -327,20 +284,11 @@
                 </dd>
                 <dt>graphics</dt>
                 <dd>integrated. see wallpaper. it's doing its best</dd>
-                <dt>peripherals</dt>
-                <dd>12 command-line tools attached. three escaped to a registry</dd>
                 <dt>mascot</dt>
                 <dd>seal (pictured). non-negotiable. type "seal" anywhere</dd>
                 <dt>known issues</dt>
                 <dd>starts side projects at 1am. will not patch</dd>
               </dl>
-              <p class="about-copy">
-                Building things that are either useful or interesting — ideally
-                both. Neither a purist nor a generalist: a builder between
-                languages, lately living in the terminal. Starts a repo most
-                weeks and ships most of them. This entire OS is a metaphor and
-                it knows it.
-              </p>
             </div>
           </div>
         </div>
@@ -423,7 +371,7 @@
 
     <!-- start menu (desktop mode) -->
     <nav class="start-menu" id="start-menu" aria-hidden="true">
-      <p class="sm-head">breakOS v3.0</p>
+      <p class="sm-head">breakOS v4.0</p>
       <button class="sm-item" data-open="things-i-made">▤ things-i-made</button>
       <button class="sm-item" data-open="breakpkg">▦ breakpkg</button>
       <button class="sm-item" data-open="system-monitor">◔ system monitor</button>
@@ -431,11 +379,9 @@
       <button class="sm-item" data-open="about">◍ about this computer</button>
       <button class="sm-item" data-open="new-message">✉ new message</button>
       <div class="sm-rule"></div>
+      <a class="sm-item" href="https://nicktrim.com">↩ back to nicktrim.com</a>
       <button class="sm-item sm-danger" id="sm-shutdown">⏻ shut down…</button>
     </nav>
-
-    <!-- theme picker (taskbar ◐ theme) -->
-    <nav class="theme-menu" id="theme-menu" aria-hidden="true"></nav>
 
     <!-- f1 start lights (type "f1") — styled after apex, the F1 dashboard -->
     <div class="f1-lights" id="f1-lights" aria-hidden="true">
@@ -455,14 +401,6 @@
         <div class="tb-progress-fill" id="tb-progress-fill"></div>
       </div>
       <div class="tb-tray" id="tb-tray"></div>
-      <button
-        class="tb-theme"
-        id="tb-theme"
-        aria-label="toggle appearance"
-        title="appearance: cream / batman jazz"
-      >
-        ◐ theme
-      </button>
       <span class="tb-clock" id="tb-clock">--:--</span>
     </footer>
 
@@ -511,7 +449,6 @@
     <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="js/wallpaper.js"></script>
-    <script src="js/swatchbook.js"></script>
     <script src="js/os.js"></script>
     <script src="js/boot.js"></script>
     <script src="js/monitor.js"></script>

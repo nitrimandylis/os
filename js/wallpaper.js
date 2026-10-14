@@ -1,6 +1,6 @@
 // ════════════════════════════════════════════════
 //  LIVE WALLPAPER — drifting halftone dots, scroll-reactive
-//  The old site had a GLSL shader. This is its cream-colored cousin.
+//  The old site had a GLSL shader. This is its night-shift cousin.
 // ════════════════════════════════════════════════
 (function wallpaper() {
   const canvas = document.getElementById("wallpaper");
@@ -29,23 +29,7 @@
   resize();
   window.addEventListener("resize", resize);
 
-  // dot colour follows the theme — swatchbook palettes recolour the field
-  let dotCol = "rgba(31, 138, 140, 0.18)";
-  window.__setWallDot = (hex) => {
-    if (!hex || hex[0] !== "#") {
-      dotCol = "rgba(31, 138, 140, 0.18)";
-      return;
-    }
-    const n = parseInt(hex.slice(1), 16);
-    dotCol =
-      "rgba(" +
-      ((n >> 16) & 255) +
-      ", " +
-      ((n >> 8) & 255) +
-      ", " +
-      (n & 255) +
-      ", 0.22)";
-  };
+  const dotCol = "#262626"; // the man(1) rule colour
 
   // scroll velocity feeds turbulence — same trick, new clothes
   let vel = 0;

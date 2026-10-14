@@ -9,14 +9,14 @@
  ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
 ```
 
-### `v3.0 — it builds. it breaks. it drags.`
+### `night shift: running breakOS v4. it builds. it breaks. it drags.`
 
-*my portfolio, disguised as an operating system. you boot it by scrolling. then it becomes a real desktop.*
+*my old portfolio, disguised as an operating system. it works nights at [os.nicktrim.com](https://os.nicktrim.com); the day job went to [nicktrim.com](https://nicktrim.com). you boot it by scrolling. then it becomes a real desktop.*
 
 ![status](https://img.shields.io/badge/status-definitely_stable-f25c4a?style=flat-square)
-![build](https://img.shields.io/badge/build_step-none._we_ship_raw-1f8a8c?style=flat-square)
-![frameworks](https://img.shields.io/badge/frameworks-0-f3e9d6?style=flat-square)
-![mascot](https://img.shields.io/badge/mascot-seal_(non--negotiable)-1d2438?style=flat-square)
+![build](https://img.shields.io/badge/build_step-none._we_ship_raw-8a8a8a?style=flat-square)
+![frameworks](https://img.shields.io/badge/frameworks-0-e6e6e6?style=flat-square)
+![mascot](https://img.shields.io/badge/mascot-seal_(non--negotiable)-262626?style=flat-square)
 ![windows](https://img.shields.io/badge/windows-draggable._finally-f25c4a?style=flat-square)
 
 </div>
@@ -25,8 +25,8 @@
 
 > [!WARNING]
 > This portfolio contains a fully working `rm -rf /`. It does exactly what
-> you'd hope. The blue screen is included free of charge. New in v3: you can
-> also drag project files into the trash. The OS will not let you.
+> you'd hope. The blue screen is included free of charge. You can also drag
+> files into the trash. The OS will not let you.
 
 ## 🖥️ What is this
 
@@ -52,19 +52,18 @@ builds things useful or interesting, ideally both.
 | | app | what it actually does |
 |---|---|---|
 | ⏻ | **boot log** | scroll-scrubbed; every line is a real measurement of *your* browser. that's the joke — it's all true |
-| ▤ | **`~/things-i-made`** | file manager mirroring the six repos pinned on GitHub: `tokenpilot.ts`, `llm_mafia.py`, `aidetect.py`, `bacpack.ts`, `gridcast.py`, `whimprflow.rs` — click to open, drag to trash to be told no |
-| ▦ | **breakpkg** | package manager for the CLI family — swatch, juke, jazz, bacpack, dt, cine, agent-wrapped, aidetect, brushwork, nous, nocturne, shelf. every row a real repo; the npm versions are fetched **live** from the registry |
+| ▤ | **`~/things-i-made`** | the leftovers: `todo_FINAL.txt`, `ideas_3am.md`, `node_modules` and friends. `the_real_list.url` opens [nicktrim.com/work](https://nicktrim.com/work). drag any of them to the trash to be told no |
+| ▦ | **breakpkg** | package manager for the CLI family: every public repo tagged `cli` on GitHub, fetched **live**. the list keeps itself |
 | ◔ | **System Monitor** | my repos, fetched **live** from the GitHub API as processes — real sizes as memory, real push times as uptime, plus *your* actual FPS |
 | ▮ | **terminal** | a working shell. `help`, `pkg list`, `defrag`, `sudo hire-nick`, `vim` (good luck quitting). `man juke` fetches the CLI's **actual man page** from its repo and renders it |
-| ❒ | **the .docx icons** | the IB coursework — EE and four IAs — sitting on the desk like any real desktop. they open; they do not download. sealed until results day |
-| ◍ | **About This Computer** | processor: `1 × human, runs warm under deadline`. peripherals: `12 command-line tools attached. three escaped to a registry` |
+| ◍ | **About This Computer** | processor: `1 × human, runs warm under deadline`. known issues: `starts side projects at 1am. will not patch` |
 | ⏻ | **start menu → Shut down?** | `[Yes]` `[Also Yes]` → BSOD → `stop code: VISITOR_ATTEMPTED_TO_LEAVE` → reboots you to the boot log |
 
 ## 🚀 Run it
 
 ```bash
-git clone https://github.com/nitrimandylis/portfolio.git
-cd portfolio
+git clone https://github.com/nitrimandylis/os.git
+cd os
 python3 -m http.server     # → http://localhost:8000
 ```
 
@@ -79,7 +78,7 @@ flowchart LR
     B --> C{100% booted?}
     C -->|desktop| D[real WM: drag, z-order,<br/>minimize, start menu]
     C -->|mobile| E[scroll session<br/>breakOS Mobile]
-    D --> F[GitHub + npm APIs<br/>stream live data]
+    D --> F[GitHub API<br/>streams live data]
     F --> G{shut down?}
     G -->|Yes| H[💙 BSOD]
     G -->|Also Yes| H
@@ -88,12 +87,11 @@ flowchart LR
 
 | layer | file | job |
 |---|---|---|
-| 🎨 design system | `css/breakos.css` | cream CRT paper, ink navy, coral, teal. bevels. scanlines |
+| 🎨 design system | `css/breakos.css` | nicktrim.com's man(1) palette: black, one grey, flat 1px windows. coral for focus and selection |
 | 🌊 live wallpaper | `js/wallpaper.js` | canvas halftone dots reacting to scroll — now with `defrag` support |
-| 🎭 themes | `js/swatchbook.js` | palette.toml files fetched live from the swatchbook repo, mapped onto the design tokens |
 | ⏻ boot | `js/boot.js` | honest boot log (`performance` + `navigator`, zero fiction), hands off to the desktop |
 | 🪟 window manager | `js/os.js` | drag, z-order, minimize/maximize, taskbar switcher, start menu, trash, BSOD, easter eggs |
-| ▦ packages | `js/breakpkg.js` | the CLI registry — GitHub push dates + live npm version, one shared fetch |
+| ▦ packages | `js/breakpkg.js` | the CLI registry: repos tagged `cli`, from the same GitHub fetch as the monitor |
 | 📊 monitor | `js/monitor.js` | GitHub repos as processes + real FPS/uptime |
 | ▮ shell | `js/terminal.js` | the command parser. yes, `rm -rf /` is wired up |
 
@@ -114,8 +112,7 @@ IBM Plex Mono for data.
 - scroll the boot too fast → the OS files a complaint
 - terminal: `claude` → an interactive Claude Code session. scripted, zero tokens, full attitude. it will ask permission to use Bash. deny it
 - type <kbd>m</kbd><kbd>a</kbd><kbd>f</kbd><kbd>i</kbd><kbd>a</kbd> anywhere → night falls, and the town from [LLM-Mafia](https://llm-mafia.vercel.app) convenes to accuse one of your **open windows**. the vote is real: it closes. cases continue the library's numbering
-- terminal: `swatch apply night-city` → the one CLI that actually runs here. the themes are **live palette.toml files** from [swatchbook](https://github.com/nitrimandylis/swatchbook) — nine of them, plus the built-ins. the taskbar `◐ theme` button opens a picker that rethemes the desktop live as you browse
-- drag a project file into the trash → the OS declines, and counts your attempts
+- drag a file into the trash → the OS declines, and counts your attempts
 - terminal: `defrag` → the wallpaper tidies itself up, then admits nothing moved
 - terminal: `sudo hire-nick` → generates an offer letter addressed to me
 - terminal: `rm -rf /` → finds out
@@ -128,7 +125,7 @@ IBM Plex Mono for data.
 ## 🗿 Archaeology
 
 `v1/` holds the previous design — dark "organic brutalism" with a GLSL
-simplex-noise shader. v2 was the scroll-only OS. v3 made the windows real.
+simplex-noise shader. v2 was the scroll-only OS. v3 made the windows real. v4 went on the night shift.
 We honor our ancestors; we do not load them.
 
 ---

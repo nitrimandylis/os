@@ -21,25 +21,11 @@
   const esc = (s) =>
     s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-  // synced with FILE_COPY in os.js — the six pinned repos, plus this site
-  const FILES = {
-    "tokenpilot.ts":
-      "LLM spend auditor. reads Anthropic + OpenAI admin APIs, 6-rule detection engine, confidence-scored savings. Next.js 16. keys never leave the tab.",
-    "llm_mafia.py":
-      "fully autonomous Mafia — every player an LLM. parallel inference, game master narrator, LM Studio / NVIDIA NIM / Claude Code. finished games replay as noir episodes. you just watch the town burn.",
-    "aidetect.py":
-      "offline AI-writing detector for your own drafts. paragraph-level scoring plus an IB word count by section. DeBERTa and a Binoculars-style perplexity check, both local. the draft never leaves the machine. on pypi.",
-    "bacpack.ts":
-      "ManageBac from the terminal — what's due, class files, CAS logging, portfolio entries. bun, zero deps, one session cookie, a scraper built form by form because there is no API.",
-    "gridcast.py":
-      "F1 race outcomes as probabilities, not a predicted order. plackett-luce on fastf1 lap data, every call committed to git before lights out. 0.134 RPS against a 0.166 grid-order baseline.",
-    "whimprflow.rs":
-      "local-first voice dictation. hold Fn, whisper transcribes on-device, a local LLM tidies it, it pastes at the cursor. tauri + rust. greek in, english out.",
-    "breakos.sys":
-      "this site. a portfolio disguised as an OS. opening this file is the closest it gets to recursion.",
-    "about.txt":
-      "nick trimandylis. builds things useful or interesting, ideally both. python · typescript · swift, lately in the terminal. starts a repo most weeks, ships most of them.",
-  };
+  // the same leftovers the file manager shows (os.js owns the list)
+  const FILES = {};
+  (window.BREAKOS_FILES || []).forEach(
+    (f) => (FILES[f.name] = f.body + (f.url ? "\n→ " + f.url : "")),
+  );
 
   // window map for 'open' command — app key drives the desktop WM,
   // sec/win drive the mobile scroll fallback
@@ -266,8 +252,6 @@
           "  date                  current date\n" +
           "  ping <host>           network diagnostics\n" +
           "  echo <text>           print text\n" +
-          "  theme [name]          switch appearance (swatchbook palettes included)\n" +
-          "  swatch apply <name>   same, but as the actual CLI\n" +
           "  claude                start a claude code session\n" +
           "  git log               commit history\n" +
           "  github                open github profile\n" +
@@ -287,7 +271,7 @@
 
     uname: () =>
       print(
-        "breakOS 3.0 'Now With Windows' — human/1 SMP PREEMPT est.2007",
+        "breakOS 4.0 'Night Shift' — human/1 SMP PREEMPT est.2007",
       ),
 
     uptime: () => {
@@ -318,7 +302,11 @@
       print("  005  github.api              sleeping (30m cache)");
       print("  006  icon.parallax           running");
       print("  007  wm.service              running (windows drag now)");
-      print("  008  breakpkg.registry       running (7 packages)");
+      print(
+        "  008  breakpkg.registry       running (" +
+          (window.BREAKPKG || []).length +
+          " packages)",
+      );
       print("  009  terminal.sh             running  ← you are here");
       print("  010  ego.check               not found");
     },
@@ -444,9 +432,7 @@
       pkgs.forEach((p) =>
         print(
           "  " +
-            p.bin.padEnd(14) +
-            ("[" + (p.npm ? "npm" : p.chan || "source") + "]").padEnd(9) +
-            p.desc,
+            p.bin.padEnd(14) + p.desc,
         ),
       );
       print(
@@ -470,15 +456,13 @@
         p.bin +
           "\n  " +
           p.desc +
-          "\n  channel: " +
-          (p.npm ? "npm (" + p.npm + ")" : p.chan ? p.chan + " (" + p.bin + ")" : "source") +
           "\n  repo: " +
           '<a href="' +
           p.url +
           '" target="_blank" rel="noopener">' +
           p.url +
           "</a>" +
-          (p.manUrl ? "\n  docs: man " + p.bin : ""),
+          "\n  docs: man " + p.bin,
         true,
       );
       return;
@@ -489,10 +473,6 @@
       );
 
     if (cmd === "defrag") {
-      if (window.__getTheme && window.__getTheme() === "batman")
-        return print(
-          "defrag: the batman-jazz wallpaper is a photograph. photographs do not fragment.",
-        );
       const started = window.__defrag && window.__defrag();
       if (!started)
         return print(
@@ -508,80 +488,6 @@
         3600,
       );
       return;
-    }
-
-    if (cmd === "theme" || cmd.startsWith("theme ")) {
-      const arg = cmd.length > 5 ? cmd.slice(6).trim() : "";
-      if (!arg) {
-        print("appearance: " + window.__getTheme());
-        print("built in: default · batman");
-        window
-          .BREAKOS_SWATCHBOOK()
-          .then((t) =>
-            print("from swatchbook: " + Object.keys(t).join(" · ")),
-          )
-          .catch(() =>
-            print("swatchbook unreachable — the built-ins still work."),
-          );
-        return;
-      }
-      window.__setTheme(arg).then((ok) => {
-        if (!ok)
-          return print(
-            "theme: " + arg + ": unknown. `theme` alone lists them.",
-          );
-        if (arg === "batman" || arg === "jazz" || arg === "dark")
-          print("appearance → batman jazz. gotham loaded.");
-        else if (arg === "default" || arg === "cream" || arg === "light")
-          print("appearance → default. the cream returns.");
-        else print("appearance → " + arg + ". palette courtesy of swatchbook.");
-      });
-      return;
-    }
-
-    // ── swatch: the one CLI that actually runs here. one surface, though ──
-    if (cmd === "swatch" || cmd.startsWith("swatch ")) {
-      const parts = cmd.split(/\s+/);
-      if (parts.length === 1)
-        return print(
-          "swatch — desktop theming, browser edition.\n" +
-            "  swatch list             palettes from the swatchbook repo\n" +
-            "  swatch apply <palette>  retheme this website\n" +
-            "(the real one writes 21 surfaces. this one writes 1. it counts.)",
-        );
-      if (parts[1] === "list") {
-        print("resolving swatchbook…");
-        window
-          .BREAKOS_SWATCHBOOK()
-          .then((t) => {
-            Object.values(t).forEach((p) =>
-              print(
-                "  " +
-                  p.id.padEnd(14) +
-                  "(" +
-                  p.variant +
-                  ")  " +
-                  p.description,
-              ),
-            );
-            print("plus built in: default · batman");
-          })
-          .catch(() => print("swatch: registry unreachable. github's turn."));
-        return;
-      }
-      if (parts[1] === "apply" && parts[2]) {
-        window.__setTheme(parts[2]).then((ok) =>
-          print(
-            ok
-              ? "swatch: applied " +
-                  parts[2] +
-                  " to 1 surface (this website). the real one does 20."
-              : "swatch: " + parts[2] + ": not in the book. try: swatch list",
-          ),
-        );
-        return;
-      }
-      return print("swatch: usage: swatch list · swatch apply <palette>");
     }
 
     if (cmd.startsWith("echo ")) return print(cmd.slice(5));
@@ -640,12 +546,9 @@
             p.bin +
             " — " +
             p.desc +
-            "\n\nDESCRIPTION\n  " +
-            p.man +
             "\n\nSOURCE\n  " +
             p.url,
         );
-      if (!p.manUrl) return fallback();
       // the real man page, straight from the repo (30-min cache)
       const key = "breakos-man-" + p.bin;
       try {
@@ -718,7 +621,7 @@
       return print(
         (pk.quip || pk.bin + ": cannot run inside a browser tab.") +
           "\n→ " +
-          (pk.manUrl ? "man " + pk.bin + "  ·  " : "") +
+          "man " + pk.bin + "  ·  " +
           pk.url,
       );
 
