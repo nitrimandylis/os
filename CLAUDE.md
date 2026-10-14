@@ -106,6 +106,9 @@ breakpkg → terminal (terminal reads `window.BREAKOS_FILES` at load and
   `❯ night-shift`. Terminal `exit`, `logout`, `cd ~` and `man nicktrim` go
   back to nicktrim.com.
 - No frameworks, no build tooling — keep it static.
+- Local CSS/JS are linked with `?v=<version>` in index.html. Pages caches them
+  for 10 minutes, so bump the version on every change to css/ or js/, or a
+  returning visitor gets new HTML with the old stylesheet.
 
 ## Verify changes
 
