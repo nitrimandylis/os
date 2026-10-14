@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- a tiny polaroid: cream frame, dark photo, wider bottom strip, slight tilt -->
+  <g transform="rotate(-6 16 16)">
+    <rect x="6" y="3" width="20" height="25" rx="1" fill="#efe9dc"/>
+    <rect x="8" y="5" width="16" height="16" fill="#1c1813"/>
+  </g>
+</svg>

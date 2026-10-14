@@ -99,8 +99,12 @@ breakpkg → terminal (terminal reads `window.BREAKOS_FILES` at load and
 - Honor `prefers-reduced-motion` (`REDUCED` flag in os.js) for any new
   animation. UI enters ~200ms strong ease-out from scale ≈ .94; exits faster
   (~140ms); animate transform/opacity only.
-- VT323 for OS chrome text, Atkinson Hyperlegible for body copy, IBM Plex
-  Mono for data tables.
+- VT323 for OS chrome text; JetBrains Mono (self-hosted, the same file as
+  nicktrim.com) for body copy and data. Favicon is nicktrim.com's. og.png
+  renders from tools/og.html at 1200x630.
+- The boot screen opens like nicktrim.com: `nick@athens ~` title line, then
+  `❯ night-shift`. Terminal `exit`, `logout`, `cd ~` and `man nicktrim` go
+  back to nicktrim.com.
 - No frameworks, no build tooling — keep it static.
 
 ## Verify changes

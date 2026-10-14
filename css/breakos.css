@@ -1,3 +1,11 @@
+/* nicktrim.com's own font file, so both sites set text the same */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -17,8 +25,8 @@
   --coral: #f25c4a;
   --win: #000;
   --ff-chrome: "VT323", monospace;
-  --ff-body: "Atkinson Hyperlegible", sans-serif;
-  --ff-mono: "IBM Plex Mono", monospace;
+  --ff-body: "JetBrains Mono", ui-monospace, monospace;
+  --ff-mono: "JetBrains Mono", ui-monospace, monospace;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* strong ease-out — UI enters want punch, not mush */
   --ease-strong: cubic-bezier(0.23, 1, 0.32, 1);
@@ -110,6 +118,27 @@ em {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/* the same title line nicktrim.com opens with: you launched this from there */
+.boot-titleline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.boot-cmd {
+  font-family: var(--ff-mono);
+  font-size: 15px;
+  margin-bottom: 1.2rem;
+}
+.boot-cmd span {
+  color: var(--ink-soft);
 }
 .boot-screen {
   width: min(680px, 92vw);

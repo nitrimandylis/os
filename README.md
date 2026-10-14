@@ -96,9 +96,8 @@ flowchart LR
 | ▮ shell | `js/terminal.js` | the command parser. yes, `rm -rf /` is wired up |
 
 **Type stack:** [VT323](https://fonts.google.com/specimen/VT323) for OS chrome ·
-[Atkinson Hyperlegible](https://fonts.google.com/specimen/Atkinson+Hyperlegible)
-for body (an accessibility font in an OS parody — the quietest joke here) ·
-IBM Plex Mono for data.
+[JetBrains Mono](https://www.jetbrains.com/lp/mono/) for everything else, the
+same font nicktrim.com is set in. type `exit` in the terminal to go back there.
 
 ## 🥚 Easter eggs
 

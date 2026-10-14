@@ -9,14 +9,18 @@
     <meta property="og:description" content="the old site, disguised as an operating system." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://os.nicktrim.com/" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="night shift, nick trimandylis" />
     <meta name="twitter:description" content="the old site, disguised as an operating system." />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>" />
+    <meta property="og:image" content="https://os.nicktrim.com/assets/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="night-shift(8), the old site, disguised as an operating system" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=VT323&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@600;800&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=VT323&family=Outfit:wght@600;800&family=Space+Grotesk:wght@700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/breakos.css" />
@@ -81,7 +85,9 @@
       <!-- ══ BOOT — scroll-driven ══ -->
       <section id="boot">
         <div class="boot-pin">
+          <header class="boot-titleline">nick@athens ~</header>
           <div class="boot-screen">
+            <p class="boot-cmd"><span>❯</span> night-shift</p>
             <p class="boot-brand">night shift<span class="blink">_</span></p>
             <p class="boot-ver">running breakOS v4. it builds. it breaks. it drags.</p>
             <div class="boot-log" id="boot-log"></div>

@@ -228,6 +228,12 @@
     print(CLAUDE_IDLE[claudeIdx++ % CLAUDE_IDLE.length]);
   }
 
+  // the way out: nicktrim.com is the shell this OS was launched from
+  function goHome(msg) {
+    print(msg + "\nreturning to nicktrim(1)…");
+    setTimeout(() => (window.location.href = "https://nicktrim.com"), 900);
+  }
+
   // command history
   const hist = [];
   let histIdx = -1;
@@ -255,6 +261,7 @@
           "  claude                start a claude code session\n" +
           "  git log               commit history\n" +
           "  github                open github profile\n" +
+          "  exit                  back to nicktrim.com (also: man nicktrim, cd ~)\n" +
           "  contact               get email address\n" +
           "  clear                 clear terminal\n" +
           "  sudo hire-nick        (try it)",
@@ -528,6 +535,8 @@
       return;
     }
 
+    if (cmd === "man nicktrim") return goHome("man nicktrim: the page lives on nicktrim.com.");
+
     if (cmd.startsWith("man ")) {
       const s = cmd.slice(4).trim().toLowerCase();
       const p = (window.BREAKPKG || []).find(
@@ -574,7 +583,8 @@
 
     if (cmd === "cd" || cmd.startsWith("cd ")) {
       const dir = cmd.length > 3 ? cmd.slice(3).trim() : "~";
-      if (dir === "~" || dir === "/home/guest" || dir === "/home/guest/breakOS")
+      if (dir === "~") return goHome("cd: ~ is nicktrim.com. the day shift.");
+      if (dir === "." || dir === "/home/guest/breakOS")
         return print("you were already here.");
       if (dir === "..") return print("cd: ..: there is nothing above breakOS.");
       return print(
@@ -606,7 +616,7 @@
         "sudo: you're already root. it's a portfolio. take anything.",
       );
     if (cmd === "exit" || cmd === "logout")
-      return print("no exit. only the shutdown dialog at the bottom. scroll.");
+      return goHome("logout. the night shift ends here.");
     if (cmd === "vim" || cmd === "vi")
       return print("vim opened. session ends when you figure out :q!");
     if (cmd === "pwd") return CMDS.pwd();
